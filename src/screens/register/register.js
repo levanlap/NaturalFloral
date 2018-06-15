@@ -1,8 +1,9 @@
 import React, { Component } from "react"
-import { Container, Header, Title, Content, Button, Input, Body, Left, Right, Icon, Form, Text, ListItem, CheckBox } from "native-base"
-import styles from "./styles"
+import { StyleSheet } from 'react-native'
+import { Container, Content, Button, Input, Body, Form, Text, ListItem, CheckBox } from "native-base"
+import TitleHeader from "../../components/TitleHeader"
 
-class Register extends Component {
+export default class Register extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -30,23 +31,13 @@ class Register extends Component {
   }
   render() {
     return (
-      <Container style={styles.container}>
-        <Header style={{ backgroundColor: '#92C6A9' }}>
-          <Left style={{ flex: 0.2 }}>
-            <Button transparent onPress={() => this.props.navigation.openDrawer()} >
-              <Icon style={{ color: "#fff", fontSize: 30 }} name="menu" type="Entypo" />
-            </Button>
-          </Left>
-          <Body>
-            <Title style={{ textAlign: 'center', color: '#FFFFFF', fontSize: 20, fontWeight: 'bold' }}>D'INSCRIPTION</Title>
-          </Body>
-          <Right style={{ flex: 0.2, backgroundColor: 'yellow' }} />
-        </Header>
+      <Container style={styleForm.container}>
+        <TitleHeader title={"D'INSCRIPTION"} navigation={this.props.navigation} />
         <Content>
           <Form>
-            <Input style={{ borderBottomColor: 'rgba(0,0,0,0.5)', borderBottomWidth: 0.5, marginBottom: 5, marginTop: 5, marginLeft: 15, marginRight: 15, height: 40, lineHeight: 40 }} placeholder="Pseudo" />
-            <Input style={{ borderBottomColor: 'rgba(0,0,0,0.5)', borderBottomWidth: 0.5, marginBottom: 5, marginTop: 5, marginLeft: 15, marginRight: 15, height: 40, lineHeight: 40 }} placeholder="Prénom" />
-            <Input style={{ borderBottomColor: 'rgba(0,0,0,0.5)', borderBottomWidth: 0.5, marginBottom: 5, marginTop: 5, marginLeft: 15, marginRight: 15, height: 40, lineHeight: 40 }} placeholder="Nom" />
+            <Input style={styleForm.input} placeholder="Pseudo" />
+            <Input style={styleForm.input} placeholder="Prénom" />
+            <Input style={styleForm.input} placeholder="Nom" />
             <ListItem style={{ borderBottomWidth: 0 }} button onPress={() => this.toggleSwitch('pseudo')}>
               <CheckBox color="#1AAC8F" checked={this.state.pseudo} onPress={() => this.toggleSwitch('pseudo')} />
               <Body>
@@ -57,12 +48,12 @@ class Register extends Component {
               <CheckBox color="#1AAC8F" checked={this.state.naturopathe} onPress={() => this.toggleSwitch('naturopathe')} />
               <Body><Text style={{ fontSize: 12 }}>Je suis naturopathe</Text></Body>
             </ListItem>
-            <Input style={{ borderBottomColor: 'rgba(0,0,0,0.5)', borderBottomWidth: 0.5, marginBottom: 5, marginTop: 5, marginLeft: 15, marginRight: 15, height: 40, lineHeight: 40 }} placeholder="Mot de passe" secureTextEntry />
-            <Input style={{ borderBottomColor: 'rgba(0,0,0,0.5)', borderBottomWidth: 0.5, marginBottom: 5, marginTop: 5, marginLeft: 15, marginRight: 15, height: 40, lineHeight: 40 }} placeholder="Re-confirmer le mot de passe" secureTextEntry />
-            <Input style={{ borderBottomColor: 'rgba(0,0,0,0.5)', borderBottomWidth: 0.5, marginBottom: 5, marginTop: 5, marginLeft: 15, marginRight: 15, height: 40, lineHeight: 40 }} placeholder="Date de naissance" />
-            <Input style={{ borderBottomColor: 'rgba(0,0,0,0.5)', borderBottomWidth: 0.5, marginBottom: 5, marginTop: 5, marginLeft: 15, marginRight: 15, height: 40, lineHeight: 40 }} placeholder="Ville" />
-            <Input style={{ borderBottomColor: 'rgba(0,0,0,0.5)', borderBottomWidth: 0.5, marginBottom: 5, marginTop: 5, marginLeft: 15, marginRight: 15, height: 40, lineHeight: 40 }} placeholder="Code postal" />
-            <Input style={{ borderBottomColor: 'rgba(0,0,0,0.5)', borderBottomWidth: 0.5, marginBottom: 5, marginTop: 5, marginLeft: 15, marginRight: 15, height: 40, lineHeight: 40 }} placeholder="No Tél" />
+            <Input style={styleForm.input} placeholder="Date de naissance" />
+            <Input style={styleForm.input} placeholder="Code postal" />
+            <Input style={styleForm.input} placeholder="Ville" />
+            <Input style={styleForm.input} placeholder="No Tél" />
+            <Input style={styleForm.input} placeholder="Mot de passe" secureTextEntry />
+            <Input style={styleForm.input} placeholder="Re-confirmer le mot de passe" secureTextEntry />
             <ListItem style={{ borderBottomWidth: 0 }} button onPress={() => this.toggleSwitch('conditions')}>
               <CheckBox color="#1AAC8F" checked={this.state.conditions} onPress={() => this.toggleSwitch('conditions')} />
               <Body>
@@ -78,5 +69,11 @@ class Register extends Component {
     )
   }
 }
+const styleForm = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  input: { borderBottomColor: 'rgba(0,0,0,0.5)', borderBottomWidth: 0.5, marginBottom: 5, marginTop: 5, marginLeft: 15, marginRight: 15, height: 40, lineHeight: 40 },
+})
 
-export default Register

@@ -1,7 +1,8 @@
 import React, { Component } from "react"
-import { View, Image } from 'react-native'
-import { Container, Header, Title, Content, Button, Icon, Left, Right, Body, Text, Card, CardItem } from "native-base"
+import { View, Image, Text } from 'react-native'
+import { Container, Content, Card, CardItem } from "native-base"
 import styles from "../styles"
+import TitleHeader from "../../../components/TitleHeader"
 
 const products = [
   { name: "Cassis feuilles", price: "11,41", pack: "20 ampoules de 15 ml", box: "300 ml", code: require("../../../../assets/products/cassis-bio.png") },
@@ -48,41 +49,30 @@ export default class ProductsList extends Component {
   render() {
     return (
       <Container style={{ backgroundColor: "#f1f2f7" }}>
-        <Header style={{ backgroundColor: "#92C7A9" }} >
-          <Left style={{ flex: 0.2, zIndex: 9999 }}>
-            <Button transparent onPress={() => this.props.navigation.openDrawer()} >
-              <Icon style={{ color: "#fff", fontSize: 30 }} name="menu" type="Entypo" />
-            </Button>
-          </Left>
-          <Body>
-            <Title style={{ color: "#FFF", fontSize: 20, fontWeight: "700" }}>Liste Des Products</Title>
-          </Body>
-          <Right style={{ flex: 0.2 }} />
-        </Header>
+        <TitleHeader title={this.props.titleHeader} navigation={this.props.navigation} />
         <Content padder>
-          {
-            products.map(({ code, name, pack, box }, index) => {
-              return (
-                <Card key={index}>
-                  <CardItem>
-                    <Image style={{ width: 120, height: 200, zIndex: 999 }} source={code} />
-                    <View style={{ flex: 1 }}>
-                      <View style={styles.flag}>
-                        <Text numberOfLines={1} style={{ color: '#fff', fontWeight: '700' }}>{name}</Text>
-                        <Text numberOfLines={1} style={{ color: '#fff', fontSize: 13 }}>{pack}</Text>
-                        <Text numberOfLines={1} style={{ color: '#fff', fontSize: 13 }}>Boîte complète: {box}</Text>
-                        <View style={styles.flagBottom} />
-                      </View>
-                      <View style={{ paddingLeft: 10 }}>
-                        <Text style={{ color: '#7ABC9D' }}>Ingrédients :</Text>
-                        <Text style={{ fontSize: 13 }}>Extrait de racine de valériane Bio* 100%. Convient aux Vegans *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.</Text>
-                      </View>
+          {products.map(({ code, name, pack, box }, index) => {
+            return (
+              <Card key={index}>
+                <CardItem>
+                  <Image style={{ width: 120, height: 200, zIndex: 999 }} source={code} />
+                  <View style={{ flex: 1 }}>
+                    <View style={styles.flag}>
+                      <Text numberOfLines={1} style={{ color: '#fff', fontWeight: '700' }}>{name}</Text>
+                      <Text numberOfLines={1} style={{ color: '#fff', fontSize: 13 }}>{pack}</Text>
+                      <Text numberOfLines={1} style={{ color: '#fff', fontSize: 13 }}>Boîte complète: {box}</Text>
+                      <View style={styles.flagBottom} />
                     </View>
-                  </CardItem>
-                </Card>
-              )
-            })
+                    <View style={{ paddingLeft: 10 }}>
+                      <Text style={{ color: '#7ABC9D' }}>Ingrédients :</Text>
+                      <Text style={{ fontSize: 13 }}>Extrait de racine de valériane Bio* 100%. Convient aux Vegans *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.</Text>
+                    </View>
+                  </View>
+                </CardItem>
+              </Card>
+            )
           }
+          )}
         </Content>
       </Container >
     )

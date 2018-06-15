@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { BarCodeScanner, Permissions } from 'expo'
 import { Container, Header, Title, Button, Icon, Left, Right, Body } from "native-base"
-import Communications from 'react-native-communications'
 
 const sommaire = []
 export default class Scanner extends Component {
@@ -52,12 +51,6 @@ export default class Scanner extends Component {
   }
 
   _handleBarCodeRead = ({ type, data }) => {
-    
-    sommaire.push({
-      score: { data }
-    })
     alert(`Bar code with type ${type} and data ${JSON.stringify(sommaire)} has been scanned!`)
-    Communications.email(['test.amagumo@gmail.com'],null,null,'My Subject',sommaire)
-    console.log('================ sommaire: ',sommaire)
   }
 }
