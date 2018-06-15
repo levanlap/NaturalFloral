@@ -89,16 +89,6 @@ export default class PlantesDetail extends Component {
         </View>
 
 
-  {
-    code: ['yarrow', 'achillea millefolium'],
-    img: require("../../../assets/herb/yarrow.jpg"),
-    name: "Yarrows",
-    scientific: "Achillea",
-    rank: "Genus",
-    isStar: true,
-    intro: "Achillea is a group of flowering plants in the family Asteraceae described as a genus by Linnaeus in 1753. The genus was named after the Greek mythological character Achilles."
-  },
-
         <Content style={{ backgroundColor: "white" }}>
           <Tabs>
             <Tab heading="Détail">

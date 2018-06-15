@@ -17,6 +17,10 @@ export default class App extends React.Component {
         'Roboto': require('./node_modules/native-base/Fonts/Roboto.ttf'),
         'Roboto_medium': require('./node_modules/native-base/Fonts/Roboto_medium.ttf'),
         'Ionicons': require('./node_modules/@expo/vector-icons/fonts/Ionicons.ttf'),
+        'Entypo': require('./node_modules/@expo/vector-icons/fonts/Entypo.ttf'),
+        'FontAwesome': require('./node_modules/@expo/vector-icons/fonts/FontAwesome.ttf'),
+        'Material Design Icons': require('./node_modules/@expo/vector-icons/fonts/MaterialCommunityIcons.ttf'),
+        'Material Icons': require('./node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf'),
       })
     ])
   }
