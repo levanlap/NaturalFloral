@@ -57,12 +57,6 @@ export default class PlantesDetail extends Component {
 
   _onBack() {
     this.props.navigation.navigate('PlantesList')
-    // if (this.props.stackNavigation) {
-    //   this.props.stackNavigation.goBack()
-    // }
-    // else {
-    //   this.props.navigation.goBack()
-    // }
   }
 
   render() {
@@ -76,32 +70,28 @@ export default class PlantesDetail extends Component {
           <Header style={{ backgroundColor: 'rgba(0,0,0,0.2)', height: deviceHeight / 3.5 }} >
             <Left style={{ flex: 0.2 }}>
               <Button transparent onPress={() => this._onBack(hello)}>
-                <Icon style={headerStyle.icon} name='arrow-back' style={{ color: '#FFFFFF' }} />
+                <Icon style={headerStyle.icon} name='arrow-back'/>
               </Button>
             </Left>
             <Body>
               <Text style={headerStyle.title}>{_.startCase(plant.name)} </Text>
-              {plant.scientific.trim() == ""}
-              <Text style={[headerStyle.title, { fontSize: 16, fontStyle: 'italic' }]}>{plant.scientific}</Text>
+              {plant.scientific.trim() !== "" && <Text style={[headerStyle.title, { fontSize: 16, fontStyle: 'italic' }]}>{plant.scientific}</Text>}
             </Body>
             <Right style={{ flex: 0.2 }} />
           </Header>
         </View>
-
-
         <Content style={{ backgroundColor: "white" }}>
           <Tabs>
             <Tab heading="Détail">
-              <CardItem header>
-                <Text>NativeBase</Text>
-              </CardItem>
               <CardItem>
                 <Body>
-                  <Text>{plant.intro}</Text>
+                  
+                  {plant.scientific.trim() !== "" && <Text><Text style={{ fontWeight: '700', padding: 5 }}>Nom scientifique:</Text> {plant.scientific}</Text>}
+                  <Text><Text style={{ fontWeight: '700', padding: 5 }}>Rang:</Text> {plant.rank}</Text>
+                  <Text note style={{ padding: 5 }}>{plant.intro}</Text>
+                  <Text note style={{ padding: 5 }}>{plant.intro}</Text>
+                  <Text note style={{ padding: 5 }}>{plant.intro}</Text>
                 </Body>
-              </CardItem>
-              <CardItem footer>
-                <Text>GeekyAnts</Text>
               </CardItem>
             </Tab>
             <Tab heading="Produits connexes">
@@ -194,31 +184,6 @@ export default class PlantesDetail extends Component {
                     </Right>
                   </ListItem>}
               />
-              {/* <List>
-          <ListItem avatar>
-              <Body>
-                <Text>Ingrédients</Text>
-                <Text note>Extrait de plante entière d’achillée millefeuile Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.</Text>
-                <Text note>L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune.</Text>
-              </Body>
-              
-            </ListItem>
-            <ListItem avatar>
-              <Body>
-                <Text>Composition</Text>
-                <Text note> Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)</Text>
-              </Body>
-              
-            </ListItem>
-            <ListItem avatar>
-              <Body>
-              <H3 style={[styles.mb10,{ color: "#85cdb4"}]}>
-              CARTON : 12 UNITÉS.
-              </H3>
-              </Body>
-              
-            </ListItem>
-            </List> */}
 
             </Tab>
             <Tab heading="Slack chat">

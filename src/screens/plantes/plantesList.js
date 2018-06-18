@@ -44,7 +44,7 @@ const herb = [
     code: ['Aloe vera', 'achillea millefolium'],
     img: require("../../../assets/herb/aloe-vera.jpg"),
     name: "Aloe vera",
-    scientific: "",
+    scientific: "Aloe vera",
     rank: "Species",
     isStar: true,
     intro: "Aloe vera is a succulent plant species of the genus Aloe. An evergreen perennial, it originates from the Arabian Peninsula but grows wild in tropical climates around the world and is cultivated for agricultural and medicinal uses."
@@ -78,7 +78,7 @@ const herb = [
     code: ['tilia cordata'],
     img: require("../../../assets/herb/tilia-cordata.jpg"),
     name: "Tilia cordata",
-    scientific: "",
+    scientific: "Tilia cordata",
     rank: "Species",
     intro: "Tilia cordata is a species of Tilia native to much of Europe. It is found from Britain through central Fennoscandia, to central Russia, and south to central Portugal, Spain, Italy, Greece, Bulgaria, Romania, Turkey, the Caucasus, and western Asia."
   }
@@ -107,7 +107,7 @@ export default class PlantesList extends Component {
             <Button style={[styles.boxShadow, styles.widgetButton]} onPress={() => this.props.navigation.navigate("Comment")}>
               <Icon style={styles.widgetIcons} name="comments" type="FontAwesome" />
             </Button>
-            <Button style={[styles.boxShadow, styles.widgetButton]} onPress={() => this.props.navigation.navigate("User")}>
+            <Button style={[styles.boxShadow, styles.widgetButton]} onPress={() => this.props.navigation.navigate("Register")}>
               <Icon style={styles.widgetIcons} name="user-circle" type="FontAwesome" />
             </Button>
             <Button style={[styles.boxShadow, styles.widgetButton]} onPress={() => this.props.navigation.navigate("Scanner")}>

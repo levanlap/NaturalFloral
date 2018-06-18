@@ -5,6 +5,7 @@ import SideBar from "./components/sidebar"
 import PlantesList from "./screens/plantes/plantesList"
 import PlantesDetail from "./screens/plantes/plantesDetail"
 import ProductsList from "./screens/products/productsList"
+import ProductsDetail from "./screens/products/productsDetail"
 import Register from "./screens/register/register"
 import About from "./screens/about/about"
 import Progress from "./screens/progress/progress"
@@ -28,6 +29,7 @@ const Drawer = createDrawerNavigator(
       screen: (props) => <About {...props} titleHeader={"A propos"} />
     },
     PlantesDetail: { screen: PlantesDetail },
+    ProductsDetail: { screen: ProductsDetail },
     Register: { screen: Register },
     Scanner: { screen: Scanner }
   },

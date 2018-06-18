@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import { StyleSheet } from 'react-native'
-import { Container, Content, Button, Input, Body, Form, Text, ListItem, CheckBox } from "native-base"
-import TitleHeader from "../../components/TitleHeader"
+import { Container, Content, Button, Input, Body, Form, Text, ListItem, CheckBox, Header, Icon, Left, Right } from "native-base"
 
 export default class Register extends Component {
   constructor(props) {
@@ -29,10 +28,23 @@ export default class Register extends Component {
       })
     }
   }
+  _onBack() {
+    this.props.navigation.navigate('PlantesList')
+  }
   render() {
     return (
       <Container style={styleForm.container}>
-        <TitleHeader title={"D'INSCRIPTION"} navigation={this.props.navigation} />
+        <Header style={{ backgroundColor: "#92C7A9", paddingTop: 25 }} >
+          <Left style={{ flex: 0.2 }}>
+            <Button transparent onPress={() => this._onBack()}>
+              <Icon name='arrow-back' style={{ color: "#fff", fontSize: 30 }} />
+            </Button>
+          </Left>
+          <Body>
+            <Text style={{ color: "#FFF", fontSize: 20, fontWeight: "700" }}>D'INSCRIPTION</Text>
+          </Body>
+          <Right style={{ flex: 0.2 }} />
+        </Header>
         <Content>
           <Form>
             <Input style={styleForm.input} placeholder="Pseudo" />

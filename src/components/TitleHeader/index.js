@@ -12,7 +12,7 @@ export default class TitleHeader extends Component {
           </Button>
         </Left>
         <Body>
-          <Text style={styles.title}>{this.props.title.toUpperCase()}</Text>
+          <Text style={styles.title}>{this.props.title}</Text>
         </Body>
         <Right style={{ flex: 0.2 }} />
       </Header>

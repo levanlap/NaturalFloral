@@ -20,6 +20,8 @@ export default class App extends React.Component {
         'Entypo': require('./node_modules/@expo/vector-icons/fonts/Entypo.ttf'),
         'FontAwesome': require('./node_modules/@expo/vector-icons/fonts/FontAwesome.ttf'),
         'Material Design Icons': require('./node_modules/@expo/vector-icons/fonts/MaterialCommunityIcons.ttf'),
+        'MaterialCommunityIcons': require('./node_modules/@expo/vector-icons/fonts/MaterialCommunityIcons.ttf'),
+        'MaterialIcons': require('./node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf'),
         'Material Icons': require('./node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf'),
       })
     ])
