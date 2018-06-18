@@ -1,6 +1,6 @@
 import React, { Component } from "react"
-import { View, Image, Modal, ScrollView } from 'react-native'
-import { Container, Content, Header, Title, Button, List, ListItem, Icon, Left, Right, Thumbnail, Body, Tabs, Fab, H1, H3, Tab, Text, Card, CardItem } from "native-base"
+import { View, Image, Modal, ScrollView, StyleSheet, ImageBackground, Dimensions } from 'react-native'
+import { Container, Content, Header, Button, List, ListItem, Icon, Left, Right, Thumbnail, Body, Tabs, Fab, H1, H3, Tab, Text, Card, CardItem } from "native-base"
 import styles from "./styles"
 const sankhadeep = require("../../../assets/product-thumbile/1.png")
 const supriya = require("../../../assets/product-thumbile/2.png")
@@ -40,7 +40,9 @@ const datas = [
     note: "Failure is temporary, giving up makes it permanent"
   }
 ]
-class PlantesDetail extends Component {
+const hello = "hello world"
+
+export default class PlantesDetail extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -53,76 +55,46 @@ class PlantesDetail extends Component {
     this.setState({ modalVisible: visible })
   }
 
-  _onBack = () => {
-    console.log(this.props.stackNavigation, this.props.stackNavigation)
-    if (this.props.stackNavigation) { 
-      this.props.stackNavigation.goBack()
-    }
-    else {
-      this.props.navigation.goBack()
-    }
+  _onBack() {
+    this.props.navigation.navigate('PlantesList')
   }
 
   render() {
+    const { navigation } = this.props
+    const plant = navigation.state.params.item
+    const deviceHeight = Dimensions.get("window").height;
     return (
-      <Container style={styles.container}>
-        <Header style={{ backgroundColor: '#92C6A9' }}>
-          <Left style={{ flex: 0.2 }}>
-            <Button transparent onPress={() => this.props.navigation.navigate("PlantesList")}>
-              <Icon name='arrow-back' style={{ color: '#FFFFFF' }} />
-            </Button>
-          </Left>
-          <Body>
-            <Title style={{ textAlign: 'center', color: '#FFFFFF', fontSize: 20, fontWeight: 'bold' }}>Plantes Detail</Title>
-          </Body>
-          <Right style={{ flex: 0.2, backgroundColor: 'yellow' }} />
-        </Header>
-        <Content>
-          <H1 style={styles.mb10}> Achillea millefolium</H1>
+      <Container>
+        <View>
+          <ImageBackground style={[StyleSheet.absoluteFill]} source={plant.img} />
+          <Header style={{ backgroundColor: 'rgba(0,0,0,0.2)', height: deviceHeight / 3.5 }} >
+            <Left style={{ flex: 0.2 }}>
+              <Button transparent onPress={() => this._onBack(hello)}>
+                <Icon style={headerStyle.icon} name='arrow-back'/>
+              </Button>
+            </Left>
+            <Body>
+              <Text style={headerStyle.title}>{_.startCase(plant.name)} </Text>
+              {plant.scientific.trim() !== "" && <Text style={[headerStyle.title, { fontSize: 16, fontStyle: 'italic' }]}>{plant.scientific}</Text>}
+            </Body>
+            <Right style={{ flex: 0.2 }} />
+          </Header>
+        </View>
+        <Content style={{ backgroundColor: "white" }}>
           <Tabs>
-            <Tab heading="Detail information">
-              <List>
-                <ListItem avatar>
-                  <Body>
-                    <Text>Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion</Text>
-                  </Body>
-
-                </ListItem>
-                <ListItem avatar>
-                  <Body>
-                    <Text>Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion</Text>
-                  </Body>
-
-                </ListItem>
-                <ListItem avatar>
-                  <Body>
-                    <Text>Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion</Text>
-                  </Body>
-
-                </ListItem>
-              </List>
-
-              <View style={{ flex: 1 }}>
-                <Fab
-                  active={this.state.active}
-                  direction="up"
-                  containerStyle={{}}
-                  style={{ backgroundColor: "#92C7A9" }}
-                  position="bottomRight"
-                  onPress={() => this.setState({ active: !this.state.active })}
-                >
-
-                  <Icon name="edit" type="Entypo" style={{ color: "#fff", fontSize: 26, width: 30 }} />
-
-                </Fab>
-              </View>
+            <Tab heading="Détail">
+              <CardItem>
+                <Body>
+                  
+                  {plant.scientific.trim() !== "" && <Text><Text style={{ fontWeight: '700', padding: 5 }}>Nom scientifique:</Text> {plant.scientific}</Text>}
+                  <Text><Text style={{ fontWeight: '700', padding: 5 }}>Rang:</Text> {plant.rank}</Text>
+                  <Text note style={{ padding: 5 }}>{plant.intro}</Text>
+                  <Text note style={{ padding: 5 }}>{plant.intro}</Text>
+                  <Text note style={{ padding: 5 }}>{plant.intro}</Text>
+                </Body>
+              </CardItem>
             </Tab>
-            <Tab heading="Product">
-
-              {/*  <View style={{ flex: 1}}>
-          <H3 style={[styles.mb10,{ color: '#85cfcd', marginTop:10 }]}>Achillée millefeuille Bio - Plante entière</H3>
-          <Image style={{height:600, width: null, flex: 1}} source={require('../../../assets/products/achilleemillefeuillebioplanteentiere.png')} />
-          </View> */}
+            <Tab heading="Produits connexes">
               <Modal
                 animationType="slide"
                 transparent={false}
@@ -212,31 +184,6 @@ class PlantesDetail extends Component {
                     </Right>
                   </ListItem>}
               />
-              {/* <List>
-          <ListItem avatar>
-              <Body>
-                <Text>Ingrédients</Text>
-                <Text note>Extrait de plante entière d’achillée millefeuile Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.</Text>
-                <Text note>L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune.</Text>
-              </Body>
-              
-            </ListItem>
-            <ListItem avatar>
-              <Body>
-                <Text>Composition</Text>
-                <Text note> Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)</Text>
-              </Body>
-              
-            </ListItem>
-            <ListItem avatar>
-              <Body>
-              <H3 style={[styles.mb10,{ color: "#85cdb4"}]}>
-              CARTON : 12 UNITÉS.
-              </H3>
-              </Body>
-              
-            </ListItem>
-            </List> */}
 
             </Tab>
             <Tab heading="Slack chat">
@@ -294,10 +241,15 @@ class PlantesDetail extends Component {
           </Tabs>
 
         </Content>
-
+        <Fab active={this.state.active} direction="up" containerStyle={{}} style={{ backgroundColor: "#92C7A9" }} position="bottomRight" onPress={() => alert("La fonction n'a pas été activée.")} >
+          <Icon name="edit" type="Entypo" style={{ color: "#fff", fontSize: 26, width: 30 }} />
+        </Fab>
       </Container>
     )
   }
 }
 
-export default PlantesDetail
+const headerStyle = StyleSheet.create({
+  title: { color: "#FFF", fontSize: 36, fontWeight: '300' },
+  icon: { color: "#fff", fontSize: 30 }
+})

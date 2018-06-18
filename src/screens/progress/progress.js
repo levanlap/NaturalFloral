@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { View, Image } from 'react-native'
-import { Container, Header, Title, Content, Button, Icon, Left, Right, Body, Text, H1 } from "native-base"
+import { Container, Content, Text, H1 } from "native-base"
+import TitleHeader from "../../components/TitleHeader"
 
 const laboratoiles = require("../../../assets/laboratoiles.png")
 const posts = {
@@ -13,22 +14,12 @@ export default class About extends Component {
   render() {
     return (
       <Container>
-        <Header style={{ backgroundColor: "#92C7A9" }} >
-          <Left style={{ flex: 0.2, zIndex: 9999 }}>
-            <Button transparent onPress={() => this.props.navigation.openDrawer()} >
-              <Icon style={{ color: "#fff", fontSize: 30 }} name="menu" type="Entypo" />
-            </Button>
-          </Left>
-          <Body>
-            <Title style={{ color: "#FFF", fontSize: 20, fontWeight: "700" }}>Nature et Progrès</Title>
-          </Body>
-          <Right style={{ flex: 0.2 }} />
-        </Header>
+        <TitleHeader title={this.props.titleHeader} navigation={this.props.navigation} />
         <Content style={{ backgroundColor: "#FFF" }}>
           <Image source={laboratoiles} style={{ marginTop: 10, alignSelf: 'center' }} />
           <View style={{ backgroundColor: "#92C7A9", margin: 10, padding: 10 }}>
             <H1 style={{ textAlign: 'center', color: "#FFF" }}>{posts.title}</H1>
-            <Text style={{ color: "#FFF", fontWeight:'bold' }}>{posts.intro}</Text>
+            <Text style={{ color: "#FFF", fontWeight: 'bold' }}>{posts.intro}</Text>
             <Text style={{ color: "#FFF" }}>{posts.content}</Text>
           </View>
         </Content>
