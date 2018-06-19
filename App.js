@@ -2,6 +2,8 @@ import React from "react"
 import MainScreen from "./src/MainScreen"
 import { Text } from 'react-native'
 import Expo, { AppLoading } from 'expo'
+import * as firebase from 'firebase';
+
 
 export default class App extends React.Component {
   constructor(props) {
@@ -9,6 +11,22 @@ export default class App extends React.Component {
     this.state = {}
     Text.defaultProps.allowFontScaling = false
     console.disableYellowBox = true
+    const firebaseConfig = {
+      apiKey: "AIzaSyD-Aq2_bBYK3MgxNTtznZrkrqLwr69S3iQ",
+      authDomain: "natural-floral.firebaseapp.com",
+      databaseURL: "https://natural-floral.firebaseio.com",
+      storageBucket: "natural-floral.appspot.com",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    var ref = firebase.database().ref();
+
+    ref.on("value", function (snapshot) {
+      console.log(snapshot.val());
+    }, function (error) {
+      console.log("Error: " + error.code);
+    });
+
   }
 
   async _loadFontsAsync() {
