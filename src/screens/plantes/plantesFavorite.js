@@ -102,7 +102,8 @@ const herb = [
   }
 ]
 
-export default class PlantesList extends Component {
+
+export default class PlantesFavorite extends Component {
 
   _viewDetail = (item) => {
     this.props.navigation.navigate('PlantesDetail', { item })
@@ -118,7 +119,7 @@ export default class PlantesList extends Component {
             <Button style={[styles.boxShadow, styles.widgetButton]} onPress={() => this.props.navigation.navigate("Filter")}>
               <Icon style={styles.widgetIcons} name="filter" type="FontAwesome" />
             </Button>
-            <Button style={[styles.boxShadow, styles.widgetButton]} onPress={() => this.props.navigation.navigate("PlantesFavorite")}>
+            <Button style={[styles.boxShadow, styles.widgetButton]} onPress={() => this.props.navigation.navigate("PlantesList")}>
               <Icon style={styles.widgetIcons} name="star" type="FontAwesome" />
             </Button>
             <Button style={[styles.boxShadow, styles.widgetButton]} onPress={() => this.props.navigation.navigate("Comment")}>
@@ -136,15 +137,15 @@ export default class PlantesList extends Component {
             items={herb}
             style={styles.gridView}
             renderItem={item => (
-              <View style={{ flex: 1 }}>
-                <TouchableOpacity activeOpacity={0.7} onPress={() => { this._viewDetail(item) }}>
-                  <View style={[{ position: 'relative', marginBottom: 5 }, styles.boxShadow]} >
-                    {item.isStar && <Image style={{ width: 20, height: 20, position: 'absolute', top: 5, right: 5, zIndex: 999 }} resizeMode="contain" source={require("../../../assets/icon-favorite.png")} />}
-                    <Image style={{ borderRadius: 8, height: 130, width: null, flex: 1 }} source={item.img} />
-                  </View>
-                  <Text numberOfLines={1} style={styles.itemName}>{_.startCase(item.name)}</Text>
-                </TouchableOpacity>
-              </View>
+              item.isStar && <View style={{ flex: 1 }}>
+              <TouchableOpacity activeOpacity={0.7} onPress={() => { this._viewDetail(item) }}>
+                <View style={[{ position: 'relative', marginBottom: 5 }, styles.boxShadow]} >
+                  {item.isStar && <Image style={{ width: 20, height: 20, position: 'absolute', top: 5, right: 5, zIndex: 999 }} resizeMode="contain" source={require("../../../assets/icon-favorite.png")} />}
+                  <Image style={{ borderRadius: 8, height: 130, width: null, flex: 1 }} source={item.img} />
+                </View>
+                <Text numberOfLines={1} style={styles.itemName}>{_.startCase(item.name)}</Text>
+              </TouchableOpacity>
+            </View>
             )}
           />
         </Content>

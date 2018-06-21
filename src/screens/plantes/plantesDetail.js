@@ -40,7 +40,6 @@ const datas = [
     note: "Failure is temporary, giving up makes it permanent"
   }
 ]
-const hello = "hello world"
 
 export default class PlantesDetail extends Component {
   constructor(props) {
@@ -55,6 +54,9 @@ export default class PlantesDetail extends Component {
     this.setState({ modalVisible: visible })
   }
 
+  _viewDetail = (item) => {
+    this.props.navigation.navigate('ProductsDetail', { item })
+  }
   _onBack() {
     this.props.navigation.navigate('PlantesList')
   }
@@ -62,20 +64,22 @@ export default class PlantesDetail extends Component {
   render() {
     const { navigation } = this.props
     const plant = navigation.state.params.item
-    const deviceHeight = Dimensions.get("window").height;
+    const deviceHeight = Dimensions.get("window").height
+    let relatedProduct  = productsData.find((item) => item.code === plant.product)
+    console.log(relatedProduct)
     return (
       <Container>
         <View>
           <ImageBackground style={[StyleSheet.absoluteFill]} source={plant.img} />
           <Header style={{ backgroundColor: 'rgba(0,0,0,0.2)', height: deviceHeight / 3.5 }} >
             <Left style={{ flex: 0.2 }}>
-              <Button transparent onPress={() => this._onBack(hello)}>
-                <Icon style={headerStyle.icon} name='arrow-back'/>
+              <Button transparent onPress={() => this._onBack()}>
+                <Icon style={headerStyle.icon} name='arrow-back' />
               </Button>
             </Left>
             <Body>
               <Text style={headerStyle.title}>{_.startCase(plant.name)} </Text>
-              {plant.scientific.trim() !== "" && <Text style={[headerStyle.title, { fontSize: 16, fontStyle: 'italic' }]}>{plant.scientific}</Text>}
+              <Text style={[headerStyle.title, { fontSize: 16, fontStyle: 'italic' }]}>{plant.scientifique}</Text>
             </Body>
             <Right style={{ flex: 0.2 }} />
           </Header>
@@ -85,106 +89,36 @@ export default class PlantesDetail extends Component {
             <Tab heading="Détail">
               <CardItem>
                 <Body>
-                  
-                  {plant.scientific.trim() !== "" && <Text><Text style={{ fontWeight: '700', padding: 5 }}>Nom scientifique:</Text> {plant.scientific}</Text>}
-                  <Text><Text style={{ fontWeight: '700', padding: 5 }}>Rang:</Text> {plant.rank}</Text>
+                  <Text><Text style={{ fontWeight: '700', padding: 5 }}>Nom scientifique:</Text> {plant.scientifique}</Text>
+                  <Text><Text style={{ fontWeight: '700', padding: 5 }}>Famille:</Text> {plant.famille}</Text>
+                  <Text><Text style={{ fontWeight: '700', padding: 5 }}>Ordre:</Text> {plant.ordre}</Text>
+                  <Text><Text style={{ fontWeight: '700', padding: 5 }}>Classification:</Text> {plant.classification}</Text>
                   <Text note style={{ padding: 5 }}>{plant.intro}</Text>
-                  <Text note style={{ padding: 5 }}>{plant.intro}</Text>
-                  <Text note style={{ padding: 5 }}>{plant.intro}</Text>
+                  <Text note style={{ padding: 5 }}>{plant.wikipedia}</Text>
                 </Body>
               </CardItem>
             </Tab>
             <Tab heading="Produits connexes">
-              <Modal
-                animationType="slide"
-                transparent={false}
-                visible={this.state.modalVisible}
-                onRequestClose={() => {
-                  this.setModalVisible(!this.state.modalVisible)
-                }}>
-                <ScrollView>
-                  <Card >
-                    <CardItem header>
-                      <H3 style={[{ color: '#85cfcd', marginTop: 10 }]}>Achillée millefeuille Bio - Plante entière</H3>
-                    </CardItem>
-                    <CardItem cardBody>
-                      <Image
-                        style={{
-                          resizeMode: "cover",
-                          width: null,
-                          height: 550,
-                          flex: 1
-                        }}
-                        source={require('../../../assets/products/achilleemillefeuillebioplanteentiere.png')}
-                      />
-                    </CardItem>
-
-                    <CardItem>
-                      <Body>
-                        <Text>Ingrédients</Text>
-                        <Text note>Extrait de plante entière d’achillée millefeuile Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.</Text>
-                        <Text note>L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune.</Text>
-                      </Body>
-                    </CardItem>
-                    <CardItem>
-                      <Body>
-
-                        <Text>Composition</Text>
-                        <Text note> Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)</Text>
-                      </Body>
-                    </CardItem>
-                    <CardItem>
-                      <Body>
-
-                        <H3 style={[styles.mb10, { color: "#85cdb4" }]}>
-                          CARTON : 12 UNITÉS.
-              </H3>
-                      </Body>
-                    </CardItem>
-                    <CardItem footer>
-                      <Left />
-                      <Body />
-                      <Right>
-                        <Button block light onPress={() => {
-                          this.setModalVisible(!this.state.modalVisible)
-                        }}>
-                          <Text>Close</Text>
-                        </Button>
-                      </Right>
-                    </CardItem>
-                  </Card>
-                </ScrollView>
-
-
-
-              </Modal>
-
-
-              <List
-                dataArray={datas}
-                renderRow={data =>
-                  <ListItem thumbnail>
+            <ListItem thumbnail>
                     <Left>
-                      <Thumbnail square size={55} source={data.img} />
+                      <Thumbnail square size={55} source={relatedProduct.img} />
                     </Left>
                     <Body>
                       <Text style={[{ color: '#85cfcd' }]}>
-                        {data.text}
+                        {relatedProduct.name}
                       </Text>
                       <Text numberOfLines={1} note>
-                        {data.note}
+                        {relatedProduct.ingredients}
                       </Text>
                     </Body>
                     <Right>
                       <Button transparent>
                         <Text onPress={() => {
-                          this.setModalVisible(true)
-                        }}>View</Text>
+                          this._viewDetail(relatedProduct.code)
+                        }}>Détails</Text>
                       </Button>
                     </Right>
-                  </ListItem>}
-              />
-
+                  </ListItem>
             </Tab>
             <Tab heading="Slack chat">
               <List>
@@ -239,7 +173,6 @@ export default class PlantesDetail extends Component {
               </List>
             </Tab>
           </Tabs>
-
         </Content>
         <Fab active={this.state.active} direction="up" containerStyle={{}} style={{ backgroundColor: "#92C7A9" }} position="bottomRight" onPress={() => alert("La fonction n'a pas été activée.")} >
           <Icon name="edit" type="Entypo" style={{ color: "#fff", fontSize: 26, width: 30 }} />
@@ -253,3 +186,68 @@ const headerStyle = StyleSheet.create({
   title: { color: "#FFF", fontSize: 36, fontWeight: '300' },
   icon: { color: "#fff", fontSize: 30 }
 })
+
+
+
+const productsData = [
+  {
+    code: 3760265300112,
+    img: require("../../../assets/products/3760265300112.jpg"),
+    name: "Achillée millefeuille Bio",
+    intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion",
+    ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.",
+    composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)",
+    pack: "20 ampoules buvables de 15 ml",
+    completeBox: "300 ml",
+    detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune."
+  },
+  { code: 3760265300341, img: require("../../../assets/products/3760265300341.jpg"), name: "Aloe vera - Sève", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300013, img: require("../../../assets/products/3760265300013.jpg"), name: "Aloe vera", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300310, img: require("../../../assets/products/3760265300310.jpg"), name: "Jus d’argousier", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300136, img: require("../../../assets/products/3760265300136.jpg"), name: "Artichaut", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300129, img: require("../../../assets/products/3760265300129.jpg"), name: "Armoise", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300030, img: require("../../../assets/products/3760265300030.jpg"), name: "Aubier de tilleul", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300303, img: require("../../../assets/products/3760265300303.jpg"), name: "Sève de Bouleau", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300280, img: require("../../../assets/products/3760265300280.jpg"), name: "Bruyère", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300037, img: require("../../../assets/products/3760265300037.jpg"), name: "Cassis", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300044, img: require("../../../assets/products/3760265300044.jpg"), name: "Chardon Marie", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300051, img: require("../../../assets/products/3760265300051.jpg"), name: "Cranberry - Cannberge", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+
+  { code: 3760265300068, img: require("../../../assets/products/3760265300068.jpg"), name: "Desmodium", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300297, img: require("../../../assets/products/3760265300297.jpg"), name: "Echinacée", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300358, img: require("../../../assets/products/3760265300358.jpg"), name: "Fumeterre", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300075, img: require("../../../assets/products/3760265300075.jpg"), name: "Ginkgo biloba", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300365, img: require("../../../assets/products/3760265300365.jpg"), name: "Harpagophyton", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300143, img: require("../../../assets/products/3760265300143.jpg"), name: "Lotier corniculé", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300150, img: require("../../../assets/products/3760265300150.jpg"), name: "Marron d’Inde", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300167, img: require("../../../assets/products/3760265300167.jpg"), name: "Mauve", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300174, img: require("../../../assets/products/3760265300174.jpg"), name: "Mélisse", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300181, img: require("../../../assets/products/3760265300181.jpg"), name: "Menthe nanah", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300198, img: require("../../../assets/products/3760265300198.jpg"), name: "Menthe poivrée", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300204, img: require("../../../assets/products/3760265300204.jpg"), name: "Millepertuis", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300082, img: require("../../../assets/products/3760265300082.jpg"), name: "Myrtille", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+
+  { code: 3760265300099, img: require("../../../assets/products/3760265300099.jpg"), name: "Olivier", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300211, img: require("../../../assets/products/3760265300211.jpg"), name: "Ortie", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300228, img: require("../../../assets/products/3760265300228.jpg"), name: "Pavot de californie", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300259, img: require("../../../assets/products/3760265300259.jpg"), name: "Pissenlit", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300372, img: require("../../../assets/products/3760265300372.jpg"), name: "Prêle des champs", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300327, img: require("../../../assets/products/3760265300327.jpg"), name: "Radis noir", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300389, img: require("../../../assets/products/3760265300389.jpg"), name: "Reine des près", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300266, img: require("../../../assets/products/3760265300266.jpg"), name: "Romarin", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300235, img: require("../../../assets/products/3760265300235.jpg"), name: "Sariette", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300273, img: require("../../../assets/products/3760265300273.jpg"), name: "Serpolet", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300242, img: require("../../../assets/products/3760265300242.jpg"), name: "Tanaisie", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  { code: 3760265300334, img: require("../../../assets/products/3760265300334.jpg"), name: "Valériane", intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion", ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.", composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)", pack: "20 ampoules buvables de 15 ml", completeBox: "300 ml", detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune." },
+  {
+    code: 3760265300105,
+    img: require("../../../assets/products/3760265300105.jpg"),
+    name: "Vigne rouge",
+    intro: "Chez les femmes, apaise les crampes abdominales périodiques - Aide à favoriser la digestion",
+    ingredients: "Extrait de plante entière d'achillée millefeuille Bio* 100%. Convient aux Vegans. *100% des ingrédients agricoles sont issus de l’Agriculture Biologique.",
+    composition: "Achillée millefeuille Bio : 2000mg** par ampoule de 15ml ** équivalent en plante sèches (EPS)",
+    pack: "20 ampoules buvables de 15 ml",
+    completeBox: "300 ml",
+    detail: "L’achillée millefeuille est une plante vivace à racine rampante. Les tiges sont pubescentes, laineuses et blanchâtres. Les feuilles sont très découpées et de couleur vert foncé. La floraison a lieu entre juin et septembre : les fleurs regroupées en capitules sont de couleur blanche, rose ou pourpre et portent en leur cœur des fleurons blanc-jaune à jaune."
+  }
+]

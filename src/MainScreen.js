@@ -4,13 +4,14 @@ import { createStackNavigator, createDrawerNavigator } from "react-navigation"
 import SideBar from "./components/sidebar"
 import PlantesList from "./screens/plantes/plantesList"
 import PlantesDetail from "./screens/plantes/plantesDetail"
+import PlantesFavorite from "./screens/plantes/plantesFavorite"
 import ProductsList from "./screens/products/productsList"
 import ProductsDetail from "./screens/products/productsDetail"
 import Register from "./screens/register/register"
+import Login from "./screens/login/login"
 import About from "./screens/about/about"
 import Progress from "./screens/progress/progress"
 import Scanner from "./screens/scanner/scanner"
- 
  				
 
 
@@ -18,6 +19,9 @@ const Drawer = createDrawerNavigator(
   {
     PlantesList: {
       screen: (props) => <PlantesList {...props} titleHeader={"Liste des plantes"} />
+    },
+    PlantesFavorite: {
+      screen: (props) => <PlantesFavorite {...props} titleHeader={"Liste des plantes"} />
     },
     ProductsList: {
       screen: (props) => <ProductsList {...props} titleHeader={"Liste des produits"} />
@@ -31,7 +35,9 @@ const Drawer = createDrawerNavigator(
     PlantesDetail: { screen: PlantesDetail },
     ProductsDetail: { screen: ProductsDetail },
     Register: { screen: Register },
+    Login: { screen: Login },
     Scanner: { screen: Scanner }
+    
   },
   {
     initialRouteName: "PlantesList",
