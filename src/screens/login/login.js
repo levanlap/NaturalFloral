@@ -1,7 +1,5 @@
-import React, { Component } from "react";
-import {
-  Container,
-  Header,
+import React, { Component } from "react"
+import { Container, Header,
   Title,
   Content,
   Button,
@@ -15,61 +13,64 @@ import {
   Form,
   Text,
   View
-} from "native-base";
-import {
-  Image
-} from 'react-native'
-import styleLogin from "./styles";
-import firebase from 'firebase';
+} from "native-base"
+import { Image, StyleSheet } from 'react-native'
+import firebase from 'firebase'
+import styleLogin from "./styles"
+
 
 class Login extends Component {
-  state = { email: '', password: '', error: '', loading: false };
+  state = { email: '', password: '', error: '', loading: false }
   onLoginPress() {
-    this.setState({ error: '', loading: true });
+    this.setState({ error: '', loading: true })
 
-    const { email, password } = this.state;
+    const { email, password } = this.state
     firebase.auth().signInWithEmailAndPassword(email, password)
-        .then(() => { this.setState({ error: '', loading: false }); })
-        .catch(() => {
-            //Login was not successful, let's create a new account
-            firebase.auth().createUserWithEmailAndPassword(email, password)
-                .then(() => { this.setState({ error: '', loading: false }); })
-                .catch(() => {
-                    this.setState({ error: 'Authentication failed.', loading: false });
-                });
-        });
-}
-
+      .then(() => { this.setState({ error: '', loading: false }) })
+      .catch(() => {
+        //Login was not successful, let's create a new account
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+          .then(() => { this.setState({ error: '', loading: false }) })
+          .catch(() => {
+            this.setState({ error: 'Authentication failed.', loading: false })
+          })
+      })
+  }
+  _onBack() {
+    this.props.navigation.navigate('PlantesList')
+  }
   render() {
     return (
       <Container style={styleLogin.container}>
-
-
-        <View style={styleLogin.viewLogo}>
-          <Image
-            style={styleLogin.logo}
-            source={require('../../../assets/logo-natural-floral.png')}
-          /></View>
+        <Header style={{ backgroundColor: "#92C7A9", paddingTop: 25 }} >
+          <Left style={{ flex: 0.2 }}>
+            <Button transparent onPress={() => this._onBack()}>
+              <Icon name='arrow-back' style={{ color: "#fff", fontSize: 30 }} />
+            </Button>
+          </Left>
+          <Body>
+            <Text style={{ color: "#FFF", fontSize: 20, fontWeight: "700" }}>Se connecter</Text>
+          </Body>
+          <Right style={{ flex: 0.2 }} />
+        </Header>
         <Content>
           <Form>
             <Item floatingLabel style={styleLogin.input}>
               <Label style={styleLogin.label}>Username</Label>
-              <Input value={this.state.email}
-                        onChangeText={email => this.setState({ email })}/>
+              <Input value={this.state.email} onChangeText={email => this.setState({ email })} />
             </Item>
             <Item floatingLabel style={styleLogin.input}>
               <Label style={styleLogin.label}>Password</Label>
-              <Input secureTextEntry value={this.state.password}
-                        onChangeText={password => this.setState({ password })}/>
+              <Input secureTextEntry value={this.state.password} onChangeText={password => this.setState({ password })} />
             </Item>
           </Form>
-          <Button block style={{ margin: 15, marginTop: 50 }} onPress={this.onLoginPress.bind(this)}>
-            <Text>Sign In</Text>
+          <Button block style={{ backgroundColor: "#92C6A9", alignSelf: "center" }} onPress={this.onLoginPress.bind(this)}>
+            <Text>Se connecter</Text>
           </Button>
         </Content>
       </Container>
-    );
+    )
   }
 }
 
-export default Login;
+export default Login

@@ -64,6 +64,7 @@ export default class Register extends Component {
             <Input style={styleForm.input} placeholder="Code postal" />
             <Input style={styleForm.input} placeholder="Ville" />
             <Input style={styleForm.input} placeholder="No Tél" />
+            <Input style={styleForm.input} placeholder="Email" />
             <Input style={styleForm.input} placeholder="Mot de passe" secureTextEntry />
             <Input style={styleForm.input} placeholder="Re-confirmer le mot de passe" secureTextEntry />
             <ListItem style={{ borderBottomWidth: 0 }} button onPress={() => this.toggleSwitch('conditions')}>
