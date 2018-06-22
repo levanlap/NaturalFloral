@@ -74,6 +74,10 @@ export default class SideBar extends Component {
     return (
       <View style={{ flex: 1, flexDirection: 'column', paddingTop: 100, backgroundColor: '#28282e' }} >
         <Image source={require("../../../assets/logo.jpg")} style={styles.drawerCover} />
+         <ListItem noBorder button style={styles.listItem}>
+            <Icon style={{ color: "#1FB5AD", fontSize: 20 }} name="user-circle" type="FontAwesome" />
+            <Text style={[styles.text, { color: "#1FB5AD" }]}>Username</Text>
+          </ListItem>
         <List dataArray={datas} renderRow={data =>
           <ListItem noBorder button onPress={() => this.props.navigation.navigate(data.route)} style={styles.listItem}>
             <Icon active name={data.icon} style={{ color: data.statusColor, fontSize: 20 }} type={data.iconType} />
