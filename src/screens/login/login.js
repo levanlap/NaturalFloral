@@ -20,20 +20,18 @@ import styleLogin from "./styles"
 
 
 class Login extends Component {
+  constructor(props) {
+    super(props)
+  }
   state = { email: '', password: '', error: '', loading: false }
   onLoginPress() {
     this.setState({ error: '', loading: true })
-
+console.log("Ham login");
     const { email, password } = this.state
     firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(() => { this.setState({ error: '', loading: false }) })
+      .then((result) => {console.log(result); this.props.navigation.navigate("PlantesList");})
       .catch(() => {
         //Login was not successful, let's create a new account
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-          .then(() => { this.setState({ error: '', loading: false }) })
-          .catch(() => {
-            this.setState({ error: 'Authentication failed.', loading: false })
-          })
       })
   }
   _onBack() {
