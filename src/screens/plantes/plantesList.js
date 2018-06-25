@@ -3,6 +3,8 @@ import { View, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { Container, Content, Button, Icon, Text } from "native-base"
 import GridView from 'react-native-super-grid'
 import TitleHeader from "../../components/TitleHeader"
+import ImageStorage from '../../services/images'
+import ProduitsStorage from '../../services/produits.json'
 
 const herb = [
   {
@@ -109,7 +111,6 @@ export default class PlantesList extends Component {
   }
   
   render() {
-    //console.log(HERBTEST)
     return (
       <Container style={{ backgroundColor: "#92C7A9" }}>
         <TitleHeader title={this.props.titleHeader} navigation={this.props.navigation} />
@@ -124,7 +125,7 @@ export default class PlantesList extends Component {
             <Button style={[styles.boxShadow, styles.widgetButton]} onPress={() => this.props.navigation.navigate("Comment")}>
               <Icon style={styles.widgetIcons} name="comments" type="FontAwesome" />
             </Button>
-            <Button style={[styles.boxShadow, styles.widgetButton]} onPress={() => this.props.navigation.navigate("Login")}>
+            <Button style={[styles.boxShadow, styles.widgetButton]} onPress={() => this.props.navigation.navigate("CheckIn")}>
               <Icon style={styles.widgetIcons} name="user-circle" type="FontAwesome" />
             </Button>
             <Button style={[styles.boxShadow, styles.widgetButton]} onPress={() => this.props.navigation.navigate("Scanner")}>

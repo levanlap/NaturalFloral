@@ -125,7 +125,7 @@ export default class PlantesFavorite extends Component {
             <Button style={[styles.boxShadow, styles.widgetButton]} onPress={() => this.props.navigation.navigate("Comment")}>
               <Icon style={styles.widgetIcons} name="comments" type="FontAwesome" />
             </Button>
-            <Button style={[styles.boxShadow, styles.widgetButton]} onPress={() => this.props.navigation.navigate("Login")}>
+            <Button style={[styles.boxShadow, styles.widgetButton]} onPress={() => this.props.navigation.navigate("CheckIn")}>
               <Icon style={styles.widgetIcons} name="user-circle" type="FontAwesome" />
             </Button>
             <Button style={[styles.boxShadow, styles.widgetButton]} onPress={() => this.props.navigation.navigate("Scanner")}>
