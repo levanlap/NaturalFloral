@@ -1,13 +1,29 @@
 import React, { Component } from "react"
 import { Image, StyleSheet } from "react-native"
 import { View, Text, List, ListItem, Icon } from "native-base"
+import firebase from 'firebase'
 
 export default class SideBar extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+    this.state = {};
+
+  }
+
+  componentDidMount() {
+    this.authSubscription = firebase.auth().onAuthStateChanged((currentUser) => {
+      this.setState({
+        currentUser,
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    this.authSubscription();
   }
 
   render() {
+    const currentUser = this.state.currentUser;
     const datas = [
       {
         name: "Liste des plantes",
@@ -74,10 +90,12 @@ export default class SideBar extends Component {
     return (
       <View style={{ flex: 1, flexDirection: 'column', paddingTop: 100, backgroundColor: '#28282e' }} >
         <Image source={require("../../../assets/logo.jpg")} style={styles.drawerCover} />
-         <ListItem noBorder button style={styles.listItem}>
+        {currentUser ?
+          <ListItem noBorder button style={styles.listItem}>
             <Icon style={{ color: "#1FB5AD", fontSize: 20 }} name="user-circle" type="FontAwesome" />
-            <Text style={[styles.text, { color: "#1FB5AD" }]}>Username</Text>
-          </ListItem>
+            <Text style={[styles.text, { color: "#1FB5AD" }]}>{currentUser.email}</Text>
+          </ListItem> : null}
+
         <List dataArray={datas} renderRow={data =>
           <ListItem noBorder button onPress={() => this.props.navigation.navigate(data.route)} style={styles.listItem}>
             <Icon active name={data.icon} style={{ color: data.statusColor, fontSize: 20 }} type={data.iconType} />
