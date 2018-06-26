@@ -1,7 +1,7 @@
 import React from "react"
 import { Root } from "native-base"
 import { createStackNavigator, createDrawerNavigator } from "react-navigation"
-import SideBar from "./components/sidebar"
+import SideBar from "./components/sideBar"
 import PlantesList from "./screens/plantes/plantesList"
 import PlantesDetail from "./screens/plantes/plantesDetail"
 import PlantesFavorite from "./screens/plantes/plantesFavorite"
@@ -9,6 +9,7 @@ import ProductsList from "./screens/products/productsList"
 import ProductsDetail from "./screens/products/productsDetail"
 import Register from "./screens/register/register"
 import Login from "./screens/login/login"
+import CheckIn from "./screens/checkin/"
 import About from "./screens/about/about"
 import Progress from "./screens/progress/progress"
 import Scanner from "./screens/scanner/scanner"
@@ -36,6 +37,7 @@ const Drawer = createDrawerNavigator(
     ProductsDetail: { screen: ProductsDetail },
     Register: { screen: Register },
     Login: { screen: Login },
+    CheckIn: { screen: CheckIn },
     Scanner: { screen: Scanner }
     
   },

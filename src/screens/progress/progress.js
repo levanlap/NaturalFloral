@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { View, Image } from 'react-native'
 import { Container, Content, Text, H1 } from "native-base"
-import TitleHeader from "../../components/TitleHeader"
+import TitleHeader from "../../components/titleHeader"
 
 const laboratoiles = require("../../../assets/laboratoiles.png")
 const posts = {
