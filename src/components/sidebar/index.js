@@ -48,7 +48,7 @@ export default class SideBar extends Component {
       },
       {
         name: "Trouver un produit autour de moi",
-        route: "Productnearme",
+        route: "ProductNearMe",
         icon: "pin-drop",
         iconType: "MaterialIcons",
         statusColor: "#AAB2BD"

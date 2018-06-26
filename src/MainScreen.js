@@ -13,7 +13,7 @@ import CheckIn from "./screens/checkin/"
 import About from "./screens/about/about"
 import Progress from "./screens/progress/progress"
 import Scanner from "./screens/scanner/scanner"
- 				
+import ProductNearMe from "./screens/productnearme/productNearMe" 	 				
 
 
 const Drawer = createDrawerNavigator(
@@ -38,7 +38,8 @@ const Drawer = createDrawerNavigator(
     Register: { screen: Register },
     Login: { screen: Login },
     CheckIn: { screen: CheckIn },
-    Scanner: { screen: Scanner }
+    Scanner: { screen: Scanner },
+    ProductNearMe: {screen: ProductNearMe}
     
   },
   {
