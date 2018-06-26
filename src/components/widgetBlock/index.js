@@ -8,7 +8,7 @@ export default class WidgetBlock extends Component {
     const screen = this.props.navigation.state.routeName === "PlantesList" ? "PlantesFavorite" : "PlantesList"
     return (
       <View style={styles.widgetBlock} >
-        <Button style={[styles.boxShadow, styles.widgetButton]} onPress={() => this.props.navigation.navigate("Filter")}>
+        <Button style={[styles.boxShadow, styles.widgetButton]} onPress={() => this.props.navigation.navigate("SearchFilter")}>
           <Icon style={styles.widgetIcons} name="filter" type="FontAwesome" />
         </Button>
         <Button style={[styles.boxShadow, styles.widgetButton]} onPress={() => this.props.navigation.navigate(screen)}>

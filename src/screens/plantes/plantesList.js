@@ -4,8 +4,6 @@ import { Container, Content, Button, Icon, Text } from "native-base"
 import GridView from 'react-native-super-grid'
 import TitleHeader from "../../components/titleHeader"
 import WidgetBlock from "../../components/widgetBlock"
-import ImageStorage from '../../services/images'
-import ProduitsStorage from '../../services/produits.json'
 
 const herb = [
   {
