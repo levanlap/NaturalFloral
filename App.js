@@ -2,7 +2,7 @@ import React from "react"
 import MainScreen from "./src/MainScreen"
 import { Text } from 'react-native'
 import Expo, { AppLoading } from 'expo'
-import * as firebase from 'firebase';
+import * as firebase from 'firebase'
 
 
 export default class App extends React.Component {
@@ -16,16 +16,16 @@ export default class App extends React.Component {
       authDomain: "natural-floral.firebaseapp.com",
       databaseURL: "https://natural-floral.firebaseio.com",
       storageBucket: "natural-floral.appspot.com",
-    };
+    }
 
-    firebase.initializeApp(firebaseConfig);
-    var ref = firebase.database().ref();
+    firebase.initializeApp(firebaseConfig)
+    var ref = firebase.database().ref()
 
     ref.on("value", function (snapshot) {
-      console.log(snapshot.val());
+      //console.log(snapshot.val())
     }, function (error) {
-      console.log("Error: " + error.code);
-    });
+      //console.log("Error: " + error.code)
+    })
 
   }
 
