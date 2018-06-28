@@ -4,10 +4,21 @@ import { Container, Content, Header, Button, ListItem, Icon, Left, Right, Thumbn
 import ProduitsStorage from '../../services/produits'
 import ImageStorage from '../../services/images'
 import SlackChat from "../../components/slackChat"
+import firebase from 'firebase'
+
 export default class PlantesDetail extends Component {
   constructor(props) {
     super(props)
   }
+
+  componentDidMount() {
+    var plantComment = firebase.database().ref("plant-comment/");
+    plantComment.orderByChild("id").equalTo(1).on("child_added", function(data) {
+      console.log("Equal to filter: " + data.val().comment);
+   });
+   
+  }
+
   _viewDetail(qrCode) {
     this.props.navigation.navigate('ProductsDetail', { qrCode })
   }

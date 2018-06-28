@@ -4,29 +4,41 @@ import { Container, Content, Header, Button, List, ListItem, Icon, Left, Right, 
 import { Constants, MapView, Location, Permissions } from 'expo';
 import firebase from 'firebase'
 
+import flagPinkImg from '../../../assets/flag-pink.png';
+import flagBlueImg from '../../../assets/flag-blue.png';
+
+const screen = Dimensions.get('window');
+
+const ASPECT_RATIO = screen.width / screen.height;
+const LATITUDE_DELTA = 0.0422;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 export default class ProductNearMe extends Component {
   state = {
-    mapRegion: { latitude: 10.761329, longitude: 106.6742595, latitudeDelta: 1, longitudeDelta: 1 },
+    mapRegion: { latitude: 10.761329, longitude: 106.6742595, latitudeDelta: LATITUDE_DELTA, longitudeDelta: LONGITUDE_DELTA },
     locationResult: null,
     location: { coords: { latitude: 10.761329, longitude: 106.6742595 } },
     markers: []
   };
+  
 
   componentDidMount() {
     this._getLocationAsync();
     var ref = firebase.database().ref("shop");
-    ref.on('value', (dataSnapshot) => {
+    this.authSubscription = ref.on('value', (dataSnapshot) => {
       this.setState({
         markers: dataSnapshot.val()
       });
-      let datas = dataSnapshot.val();
+      /* let datas = dataSnapshot.val();
       for (i = 0; i < datas.length; i++) { 
         var dist = this.distance(this.state.location.coords.latitude, this.state.location.coords.longitude, datas[i].coordinates.latitude, datas[i].coordinates.longitude, "K");
         datas[i].distance= dist;
-      };
-      console.log(datas);
+      }; */
     });
 
+  }
+
+  componentWillUnmount() {
+    this.authSubscription();
   }
 
 
@@ -78,12 +90,19 @@ export default class ProductNearMe extends Component {
     const deviceHeight = Dimensions.get("window").height
     return (
       <View style={styles.container}>
-        <MapView provider="google"
+        <MapView provider={this.props.provider}
           style={styles.map}
-          region={{ latitude: this.state.location.coords.latitude, longitude: this.state.location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }}
+          initialRegion={{ latitude: this.state.location.coords.latitude, longitude: this.state.location.coords.longitude, latitudeDelta: LATITUDE_DELTA, longitudeDelta: LONGITUDE_DELTA }}
           onRegionChange={this._handleMapRegionChange}
         >
-          {this.state.markers.map((marker, index) => (<MapView.Marker key={index} coordinate={marker.coordinates} title={marker.name} description={marker.address} />))}
+         <MapView.Marker
+    image={flagBlueImg}
+    coordinate={this.state.location.coords}
+    title="Your location"
+    description="This is your location"
+    pinColor="yellow" 
+  />
+          {this.state.markers.map((marker, index) => (<MapView.Marker image={flagPinkImg} key={index} coordinate={marker.coordinates} title={marker.name} description={marker.address} />))}
         </MapView>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
