@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { BarCodeScanner, Permissions, Constants } from 'expo'
-import { Container, Header, Button, Icon, Left, Right, Body } from "native-base"
+import { BarCodeScanner, Permissions } from 'expo'
+import { Container, Button } from "native-base"
 
-const sommaire = []
 export default class Scanner extends Component {
   constructor(props) {
     super(props)
@@ -29,20 +28,6 @@ export default class Scanner extends Component {
     } else {
       return (
         <Container>
-          {/* 
-          <Header style={{ backgroundColor: "#92C7A9", paddingTop: 25 }} >
-            <Left style={{ flex: 0.2 }}>
-              <Button transparent onPress={() => this._onBack()}>
-                <Icon name='arrow-back' style={{ color: "#fff", fontSize: 30 }} />
-              </Button>
-            </Left>
-            <Body>
-              <Text style={{ color: "#FFF", fontSize: 20, fontWeight: "700" }}>Scanner</Text>
-            </Body>
-            <Right style={{ flex: 0.2 }} />
-          </Header>
-        */}
-
           <View style={{ flex: 1 }}>
             <BarCodeScanner
               type={this.state.cameraDirection}
@@ -56,10 +41,10 @@ export default class Scanner extends Component {
                 <View style={styles.layerLeft} />
                 <View style={[styles.focused]}>
                   <View style={{ height: 1, backgroundColor: 'white', borderBottomColor: 'red', borderBottomWidth: 1 }} />
-                  <View style={[styles.corner, styles.cornerTopRight]}/>
-                  <View style={[styles.corner, styles.cornerTopLeft]}/>
-                  <View style={[styles.corner, styles.borderBottomLeft]}/>
-                  <View style={[styles.corner, styles.borderBottomRight]}/>
+                  <View style={[styles.corner, styles.cornerTopRight]} />
+                  <View style={[styles.corner, styles.cornerTopLeft]} />
+                  <View style={[styles.corner, styles.borderBottomLeft]} />
+                  <View style={[styles.corner, styles.borderBottomRight]} />
                 </View>
                 <View style={styles.layerRight} />
               </View>
@@ -67,7 +52,6 @@ export default class Scanner extends Component {
                 <Button transparent onPress={() => this._onBack()} style={{ alignSelf: 'center' }}>
                   <Text style={{ color: "#FFF", fontSize: 16, lineHeight: 30 }}>Annuler</Text>
                 </Button>
-
               </View>
             </BarCodeScanner>
           </View>
@@ -78,6 +62,11 @@ export default class Scanner extends Component {
 
   _handleBarCodeRead = ({ type, data }) => {
     //alert(`Bar code with type ${type} and data ${JSON.stringify(data)} has been scanned!`)
+    
+  }
+
+  _viewDetail(qrCode) {
+    this.props.navigation.navigate('ProductsDetail', { qrCode })
   }
 }
 const opacity = 'rgba(0, 0, 0, .6)';
